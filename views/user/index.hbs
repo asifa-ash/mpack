@@ -1,0 +1,177 @@
+{{>homenav parameter=name parameter=x}}
+
+
+
+
+<section class="holder_lr">
+
+    <div class="left">
+
+        <div class="drop-holder">
+
+            <div class="bar">
+                <span style="margin-top:20px;margin-left: 24px;">
+                    Material
+                </span>
+                <hr>
+                <div class="leftdropdown" style="margin-top:8px;">
+
+                    <p><input type="radio" class="form-check-input" id="all_M" name="large">All Size</p>
+
+                    <p><input type="radio" class="form-check-input" id="material" name="large">Brown craft paper</p>
+                    <p><input type="radio" class="form-check-input" id="material" name="large">White craft paper</p>
+                    <p><input type="radio" class="form-check-input" id="material" name="large">LD</p>
+                    <p><input type="radio" class="form-check-input" id="material" name="large">HM</p>
+                    <p><input type="radio" class="form-check-input" id="material" name="large">Non woven</p>
+                    <p><input type="radio" class="form-check-input" id="material" name="large">Jute</p>
+                    <p><input type="radio" class="form-check-input" id="material" name="large">Color craft paper</p>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+        <div class="drop-holder">
+                <hr>
+            <div class="bar">
+                <span style="margin-top:20px;margin-left: 24px;">
+                    SIZE
+                </span>
+                <hr>
+                <div class="leftdropdown" style="margin-top:8px;">
+                    <p><input type="radio" class="form-check-input" id="all_S" name="size">All Size</p>
+
+                    <p><input type="radio" class="form-check-input" id="sizes" name="size">16x12</p>
+                    <p><input type="radio" class="form-check-input" id="sizes" name="size">12x16</p>
+                    <p><input type="radio" class="form-check-input" id="sizes" name="size">10x12</p>
+                    <p><input type="radio" class="form-check-input" id="sizes" name="size">8+3x10</p>
+                    <p><input type="radio" class="form-check-input" id="sizes" name="size">11x23x6</p>
+                    <p><input type="radio" class="form-check-input" id="sizes" name="size">12+4x16</p>
+                    <p><input type="radio" class="form-check-input" id="sizes" name="size">14+4x17</p>
+                    <p><input type="radio" class="form-check-input" id="sizes" name="size">4x6</p>
+                    <p><input type="radio" class="form-check-input" id="sizes" name="size">6x8</p>
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+    </div>
+
+    {{!-- right section --}}
+
+    <section class="right">
+        <div class="row image-section" id="cover" id="table">
+
+
+            {{#each data}}
+
+            <div class="col-xl-3 col-md-4 col-sm-6  d-flex p-3 gap-3 mt-4  ">
+
+                <div class="card " style="width: 18rem;border: 0;">
+
+                    <a href="/add-to-order/id?{{this._id}}"><img style="width:200px;height:200px"
+                            src="images/{{this.image}}" class="card-img-top" alt="..."></a>
+
+                    <div class="card-body h-25" id="table2">
+                        <h5 class="card-title" style="font-size:15px;" id="name">{{this.Name}}</h5>
+                        <h5 class="card-title d-none" style="font-size:15px;" id="mati">{{this.Material}}</h5>
+                        <p class="card-text m-0" id="size"> Size: {{this.size}}.</p>
+                        <p class="card-text m-0 text-danger">Prise: ₹{{this.Prise}}</p>
+
+                    </div>
+                </div>
+
+            </div>
+
+            {{/each}}
+
+        </div>
+    </section>
+
+</section>
+
+
+<script>
+    let All_size = document.querySelectorAll("#size")
+    document.querySelector('#all_S').addEventListener('input', (e) => {
+
+        All_size.forEach(els => {
+
+            els.parentNode.parentNode.parentNode.classList.toggle('d-none', false)
+
+
+        })
+
+    })
+    document.querySelector('#all_M').addEventListener('input', (e) => {
+        All_size.forEach(els => {
+
+            els.parentNode.parentNode.parentNode.classList.toggle('d-none', false)
+
+
+        })
+    })
+    document.querySelectorAll('#sizes').forEach(el => {
+
+        el.addEventListener('input', e => {
+            All_size.forEach(els => {
+                let found = els.innerHTML.includes(el.parentNode.innerText)
+                els.parentNode.parentNode.parentNode.classList.toggle("d-none", !found)
+                console.log(els.parentNode.parentNode.parentNode)
+
+            })
+
+        })
+    })
+
+
+
+
+    const table = document.querySelectorAll('#table')
+    let All_Mat = document.querySelectorAll('#material')
+    All_Mat.forEach(el => {
+        el.addEventListener('input', e => {
+            let mat = el.parentNode.innerText
+
+            let title = document.querySelectorAll('#mati')
+
+            title.forEach(el => {
+                console.log(el.innerHTML)
+                console.log(e.target.value)
+
+                let found = el.innerHTML.includes(mat)
+                console.log(found)
+                el.parentNode.parentNode.parentNode.classList.toggle('d-none', !found)
+                console.log(el.parentNode.parentNode)
+            })
+        })
+
+    })
+
+
+
+</script>
+
+<script src="/public/javascripts/home.js"></script>
+<script>
+    window.addEventListener('load', e => {
+        history.replaceState({}, '', '/')
+    })
+</script>
+<script src="/public/javascripts/refresh.js"></script>

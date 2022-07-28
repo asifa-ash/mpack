@@ -1,0 +1,128 @@
+{{>homenav }}
+<div class="order-body row ">
+    <div class="mx-5">
+  <div class="row m-0 py-3 px-lg-5 px-sm-2 px-xs-1">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Order-Section</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+    <div class="col-lg-6 col-sm-12 d-flex justify-content-end">
+        <div class="image-hold">
+            <div class="img-con">
+                <img src="/images/{{data.image}}" width="100%" height="100%" alt="">
+            </div>
+            <div class="button-hol">
+
+                <a id="add_to_c" href="/add-to-cart/id?{{data._id}}" class="btn btn-dark">ADD TO CART</a>
+
+                <button class="btn btn-dark" id="order-btn">ORDER NOW</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6 col-sm-12">
+        <div class="detailes">
+            <h2 class="mx-5">{{data.Name}}</h2>
+            <hr style="color: #000; width: 80%; margin-left: 25px;">
+            <p style="color:red;" class="mx-5" id="price">Rate:₹{{data.Prise}}</p>
+            <p class="mx-5">GSM:{{data.GSM}}</p>
+            <P class="mx-5">Material:{{data.Material}}</P>
+        </div>
+    </div>
+
+
+
+
+
+</div>
+
+<script src="/public/javascripts/home.js"></script> 
+<script>
+    window.addEventListener('load', function () {
+        let account = document.querySelector('#acc');
+        let status = localStorage.getItem('status');
+        let cartCount = document.querySelector('#cart');
+        let Cart_btn = document.querySelector('#add_to_c');
+        let menuList = document.querySelector('#UserMedia')
+        console.log("from order.hbs" + status);
+
+        if (status == 200) {
+
+
+            let cookies = document.cookie.split(';')
+            let arrOf_Id = cookies.filter((el) => { return el.includes("id") });
+            let id = arrOf_Id[0] ? arrOf_Id[0].split('=')[1] : false
+            if (id) {
+                Cart_btn.setAttribute('href', `/add-to-cart/id?{{data._id}}%u_id=${id}`);
+
+
+
+                fetch('/refresh', { method: 'post', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id }) }).then((res) => {
+                    return res.json()
+                }).then(res => {
+                    account.innerHTML = res.name1 + " " + res.name2
+                    cartCount.dataset.count = res.cart.length
+                    menuList.innerText  = `${res.name1}&nbsp;${res.name2}`
+                    cartCount.parentNode.href = `/cart?${localStorage.getItem('id')}`
+                })
+
+            } else {
+                let id_loc = localStorage.getItem('id')
+                Cart_btn.setAttribute('href', `/add-to-cart/id?{{data._id}}%u_id=${id_loc}`);
+
+
+
+                fetch('/refresh', { method: 'post', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id_loc }) }).then((res) => {
+                    return res.json()
+                }).then(res => {
+                    account.innerHTML = res.name1 + " " + res.name2
+                    cartCount.dataset.count = res.cart.length
+                    cartCount.parentNode.href = `/cart?${localStorage.getItem('id')}`
+                    menuList.innerHTML  = `${res.name1}&nbsp;${res.name2}`;
+                })
+            }
+
+
+
+
+        } else if (status == 205) {
+            account = document.querySelector('#acc');
+            account.innerHTML = "Account"
+            cartCount.dataset.count = 0
+            Cart_btn.setAttribute('href', '/login');
+
+        }
+    })
+</script>
+
+
+<script>
+    document.querySelector('#order-btn').addEventListener('click', (e) => {
+        e.preventDefault()
+        let url = document.querySelector('#add_to_c')
+
+        let [proId, userId] = url.href.split('?')[1].split("%u_id=")
+        console.log(proId, userId);
+        proPrice = document.querySelector("#price").innerHTML.split("₹")[1]
+        console.log(proPrice)
+        pro_data = {
+            proId: proId,
+            userID: userId,
+            Total_P: proPrice
+
+        }
+
+
+        fetch('/user-address', { method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pro_data) }).then(res=>{
+            return res.json()
+        }).then(token=>{
+            window.location = `/user-address?token=${token}`
+        })
+        e.target.innerHTML="Processing."
+        console.log(e.target)
+    })
+</script>

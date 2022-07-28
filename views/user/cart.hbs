@@ -1,0 +1,337 @@
+{{>cartnav}}
+
+<div class="mx-5">
+  <div class="row m-0 py-3 px-lg-5 px-sm-2 px-xs-1">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Cart</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+<div class="cart-body row ">
+
+  <div class="col-lg-6 col-sm-12">
+    <div class="cart-holder ">
+      <table style="width:100%; height:25%;background:white;">
+        {{#if Arr}}
+        {{#each Arr}}
+        <tr class="show">
+          <td>
+            <img src="images/{{this.image}}" width="200px" alt="img">
+
+            <div class="c_wrap">
+              <input id="productID" type="text" value="{{this._id}}" style="display: none;">
+              <button class="btn btn-dark rounded-pill minus" style="margin-left:35px;">-</button>
+              <input value="{{this.Quantity}}" class="count">
+              <button class="btn btn-dark rounded-pill plus">+</button>
+            </div>
+
+
+          </td>
+
+
+          <td>
+
+            <h5>{{this.Name}}</h5>
+
+            <p><span style="color:rgb(40, 37, 37)">₹ {{this.Prise}} Per Item</span></p>
+            <p style="color: #000;">Total Price: <span class="price" style="color:rgb(20, 189, 62)">₹ {{this.T_price}}
+              </span></p>
+
+            <p>{{this.size}}</p>
+
+            <a class="btn btn-dark mt-3 buy" href="/user-address">BUY</a>
+            <a href="/cart/remove-cart/?{{this._id}}&{{this.userID}}" class="btn btn-dark mt-3">Remove</a>
+          </td>
+
+
+        </tr>
+
+
+        {{/each}}
+        {{else}}
+        <div class="w-100 d-flex align-item-center p-3">
+          <h3>No&nbsp;Items</h3>
+          <img src="/images/EmptyCart.svg" width="100%" height="100%" alt="">
+        </div>
+        {{/if}}
+
+      </table>
+
+    </div>
+  </div>
+
+
+  <div class="col-lg-6 col-sm-12">
+    <div class="cart-details ">
+      <img src="/images/wave.svg" alt="">
+
+      <div>
+        <span id="total">
+
+        </span>
+        {{#if Arr}}
+
+        <button class="btn btn-primary mt-1 "  id="total_proOrder">Place Order</button>
+        {{else}}
+        <button class="btn btn-primary mt-1 disabled"  id="total_proOrder">Place Order</button>
+        {{/if}}
+      </div>
+
+
+    </div>
+  </div>
+
+
+
+</div>
+
+{{!-- find id and total prise for address page.......................................... --}}
+
+<script>
+  document.querySelectorAll('.buy').forEach(el => {
+    el.addEventListener('click', e => {
+
+      e.preventDefault()
+      let TotalP = el.parentElement.children[2].children[0].innerHTML.split("₹")[1]
+      let proId = el.parentElement.parentElement.children[0].children[1].children[0].value
+      let cookies = document.cookie.split(';')
+      let arrOf_Id = cookies.filter((el) => { return el.includes("id") });
+      let userID = arrOf_Id[0] ? arrOf_Id[0].split('=')[1] : localStorage.getItem('id')
+      let data = {
+        Total_P: TotalP,
+        productID: proId,
+        userID: userID,
+        oneProduct: true
+      }
+      console.log(data)
+      fetch('/user-address', { method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).then(res => {
+        return res.json()
+      }).then(token => {
+        window.location = `/user-address?token=${token}`
+      })
+      e.target.innerHTML = "Processing.."
+      e.target.classList.toggle('disabled', true)
+
+
+
+
+
+    })
+  })
+</script>
+<script>
+  //count update
+  window.addEventListener('load', () => {
+    let plusBtn = document.querySelectorAll('.plus')
+    plusBtn.forEach(el => {
+      el.addEventListener('click', event => {
+
+
+        let count = el.parentElement.children[2].value//input element of increment field
+        let TotalPrice_of = el.parentElement.parentElement.parentElement.querySelector('.price')
+
+        //for id----------------------
+        let cookies = document.cookie.split(';')
+        let arrOf_Id = cookies.filter((el) => { return el.includes("id") });
+        let userID = arrOf_Id[0] ? arrOf_Id[0].split('=')[1] : localStorage.getItem('id')
+        //-for product id--------------------------------------
+        let productID = el.parentElement.childNodes[1].value
+        el.parentElement.children[2].value = Number(count) + 1
+
+
+
+        let Quantity = el.parentElement.children[2].value
+
+        let data = {
+          quantity: Number(Quantity),
+          productID: productID,
+          userID: userID
+
+
+        }
+
+        fetch('/cart/update_cart', { method: "PATCH", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).then(res => {
+
+          return res.json()
+
+        }).then(res => {
+          data.T_price = res * Quantity
+          TotalPrice_of.innerHTML = "₹ " + res * Quantity
+          fetch('/cart/update_cart', { method: "PATCH", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+          totalAmount()
+
+        })
+
+      })
+    })
+
+
+    //countDown
+
+
+    let minusBtn = document.querySelectorAll('.minus')
+    minusBtn.forEach(el => {
+      el.addEventListener('click', event => {
+
+        let TotalPrice_of = el.parentElement.parentElement.parentElement.querySelector('.price')
+        let count = el.parentElement.children[2].value
+
+        let cookies = document.cookie.split(';')
+        let arrOf_Id = cookies.filter((el) => { return el.includes("id") });
+        let userID = arrOf_Id[0] ? arrOf_Id[0].split('=')[1] : localStorage.getItem('id')
+
+        let productID = el.parentElement.childNodes[1].value
+        console.log(el.parentElement.children[2].value)
+
+
+
+
+        if (count <= 1) {
+
+          let response = confirm("Do you want to delete his product")
+          if (response) {
+
+            el.parentElement.children[2].value = 0
+            fetch(`/cart/remove-cart/?${productID}&${localStorage.getItem('id')}`).then(window.location = '/cart')
+
+
+          } else {
+            el.parentElement.children[2].value = 1
+
+          }
+        } else {
+          el.parentElement.children[2].value = Number(count) - 1;
+        }
+        let Quantity = el.parentElement.children[2].value;
+
+        let data = {
+          quantity: Number(Quantity),
+          productID: productID,
+          userID: userID
+        }
+        fetch('/cart/update_cart', { method: "PATCH", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).then(res => {
+          return res.json();
+
+        }).then(res => {
+          data.T_price = res * Quantity
+          TotalPrice_of.innerHTML = "₹ " + res * Quantity
+          fetch('/cart/update_cart', { method: "PATCH", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
+          totalAmount()
+        })
+
+
+
+      })
+    })
+  })
+
+
+
+
+
+
+  function totalAmount() {
+    let sum = 0;
+    let NodeList = document.querySelectorAll('.price') //array of elements (span)
+    let totalHtml = document.querySelector('#total')
+    NodeList.forEach(el => {
+
+      sum += Number(el.innerHTML.split('₹')[1])
+
+
+    })
+
+    if (sum) {
+      totalHtml.innerHTML = `<h3>Total Amount: ₹${sum}</h3>`
+    } else {
+      totalHtml.innerHTML = `<h3>No items</h3>`
+    }
+  }
+  //finding total 
+
+  window.addEventListener('load', () => {
+
+    totalAmount()
+  })
+</script>
+
+{{!-- fetching data from server --}}
+<script>
+  window.addEventListener('load', function () {
+    let account = document.querySelector('#title');
+    let status = localStorage.getItem('status');
+    let cartCount = document.querySelector("#cart")
+    let collections = document.querySelector('.show')
+    let totalHtml = document.querySelector('#total')
+    if (status == 200) {
+      collections.classList.toggle('d-none', false);
+
+      console.log(document.cookie);
+      let id = document.cookie.split(";")[1] ? document.cookie.split(";")[1].split('=')[1] : false
+      console.log(id);
+
+      if (id) {
+        fetch('/refresh', { method: 'post', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id }) }).then((res) => {
+          return res.json()
+        }).then(res => {
+          account.innerHTML = res.name1 + "&nbsp;" + res.name2;
+
+
+        })
+
+      } else {
+        let id_loc = localStorage.getItem('id');
+        fetch('/refresh', { method: 'post', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: id_loc }) }).then((res) => {
+          return res.json()
+        }).then(res => {
+          account.innerHTML = res.name1 + "&nbsp;" + res.name2;
+
+
+        })
+      }
+
+
+    } else if (status == 205) {
+      collections.classList.toggle('d-none', true);
+      account.innerHTML = "Account";
+      totalHtml.innerHTML = `<h3>No items</h3>`
+
+
+
+    };
+
+  });
+
+</script>
+
+
+<script>
+
+  document.querySelector("#total_proOrder").addEventListener("click", (event) => {
+    event.preventDefault();
+    let total = event.target.parentElement.children[0].children[0].innerHTML.split("₹")[1]
+
+    let cookies = document.cookie.split(';')
+    let arrOf_Id = cookies.filter((el) => { return el.includes("id") });
+    let userID = arrOf_Id[0] ? arrOf_Id[0].split('=')[1] : localStorage.getItem('id')
+
+    let pro_data = {
+      userID: userID,
+      Total_P: total,
+      oneProduct: false
+    }
+
+
+
+    fetch('/user-address', { method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pro_data) }).then(res => {
+      return res.json()
+    }).then(token => {
+      console.log(token)
+      window.location = `/user-address?token=${token}`
+    })
+    event.target.innerHTML = "Processing.."
+  })
+</script>

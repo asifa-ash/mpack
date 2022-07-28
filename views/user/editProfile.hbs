@@ -1,0 +1,39 @@
+<div class="myProfileHolder row">
+    <div class="row m-0">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Cart</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="container">
+        <div class="myProfile1">
+            <form action="" id="profileForm">
+                <label>First Name</label>
+                <input type="text" value="{{profileData.name1}}">
+                <label>Last Name</label>
+                <input type="text" value="{{profileData.name2}}"><br>
+
+                <label>Username</label>
+                <input type="text" value="{{profileData.username}}">
+
+
+                <a href="" id="AccRem" class="btn btn-primary">Update</a>
+
+            </form>
+
+        </div>
+    </div>
+
+
+</div>
+<script>
+    document.querySelector('#AccRem').addEventListener('click', (e) => {
+        e.preventDefault()
+        let id = localStorage.getItem('id')
+        window.location = `/removeProfile/id?${id}`
+
+        console.log(id)
+    })
+</script>

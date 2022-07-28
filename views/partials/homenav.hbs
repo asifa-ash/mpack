@@ -1,0 +1,116 @@
+<div class="nav-container navbarHome">
+    <nav class="main-nav">
+
+
+        <div class="logo">
+            <img src="/images/M_PACK_BLUE.png" onclick="javascript:window.location='/'" width="100%" height="100"
+                class="img-logo" alt="logo">
+        </div>
+        <div class="search">
+
+            <div class="search-input">
+                <input type="text" placeholder="I'am looking for" class="input" id="search">
+                <i class='bx bx-search'></i>
+
+            </div>
+
+        </div>
+
+
+        <div class="buttons">
+            <a href="/messages" style="text-decoration:none;color:white;font-size:18px;">Send Enquiry</a>
+            <div class="drop-down">
+                <label id="acc"></label>
+                <div class="drop-item">
+                    <a href="/?status=205" style="text-decoration: none;">
+                        <li id="logout"></li>
+
+                    </a>
+                    <hr>
+                    <a href="" style="text-decoration: none;">
+                        <li class="MYProfile">My profile</li>
+                    </a>
+                    <hr>
+                    <a href="/myOrder" style="text-decoration: none;">
+                        <li id="myOrder">My Order</li>
+                    </a>
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+        <a href="/cart"> <i id="cart" class='bx bx-cart-add text-light' data-count=""></i></a>
+        <div class="menu">
+            <i class='bx bx-menu'></i>
+            <div class="menu-list">
+                <li id="UserMedia"></li>
+                <a href="/?status=205" id="menuLogout" class="btn btn-outline-dark"></a>
+                <hr>
+                <a class="menuSendEnq" href="/messages">Send Enquiry</a>
+
+
+                <hr>
+                <a href="" style="text-decoration: none;">
+                    <li class="MYProfile">My profile</li>
+                </a>
+                <hr>
+                <a href="/myOrder" style="text-decoration: none;">
+                    <li id="myOrder">My Order</li>
+                </a>
+
+
+
+
+            </div>
+
+        </div>
+
+
+
+    </nav>
+</div>
+
+
+
+
+
+<script>
+    let menuItems = document.querySelector('.buttons');
+
+    window.addEventListener('load', () => MediaQuery())
+    window.addEventListener('resize', () => MediaQuery())
+
+    function MediaQuery() {
+        let nameOfUser = menuItems.querySelector('#acc').innerHTML;
+        let infoSign = menuItems.querySelector('#logout').innerHTML;
+        console.log(infoSign, nameOfUser);
+
+        if (window.innerWidth <= 991) {
+
+            document.querySelector('.menu').classList.toggle('d-none', false);
+            document.querySelector('.buttons').classList.toggle('d-none', true);
+
+
+        } else {
+            document.querySelector('.menu').classList.toggle('d-none', true);
+            document.querySelector('.buttons').classList.toggle('d-none', false);
+        }
+    }
+    MediaQuery();
+
+</script>
+<script>
+    document.querySelectorAll('.MYProfile').forEach(el => {
+        el.addEventListener('pointerdown', (e) => {
+            e.preventDefault()
+            let id = localStorage.getItem('id')
+            location = `/myProfile/id?${id}`
+
+            console.log(id)
+        })
+
+    })
+</script>

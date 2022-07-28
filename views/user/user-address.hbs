@@ -1,0 +1,267 @@
+{{>homenav}}
+<div class="address-body">
+
+
+    
+
+        <div class="container py-5 h-100">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Shopping</li>
+                </ol>
+            </nav>
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="card">
+                    <div class="card-body p-4">
+                        <form action="/user-address" id="checkout-form" method="post">
+                            <div class="row">
+                                <div class="col-lg-7">
+                                    <h3>Happy Shopping</h3>
+                                    <hr>
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <div>
+                                            <p class="mb-1">Continue Shopping</p>
+                                        </div>
+                                    </div>
+                                    {{#if address}}
+
+                                    <div class="card mb-3">
+                                        <div class="text-uppercase text-light mt-0 p-2 bg-dark"><i
+                                                class="bi bi-geo-alt-fill"></i> delivery address</div>
+                                        {{#with address}}
+
+                                        <div class="form-check">
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                                <p>{{firstName}}{{lastName}},{{mobileNumber}},
+                                                </p>
+                                                <P>{{address}},{{pincode}}</P>
+                                            </label>
+
+
+                                        </div>
+                                        {{/with}}
+
+                                        <button id="removeAddress" class="btn btn-danger rounded-0">Remove
+                                            address</button>
+
+
+                                    </div>
+                                    {{else}}
+                                    <div class="card mb-3">
+                                        <div class="text-uppercase text-light mt-0 p-2 bg-dark"><i
+                                                class="bi bi-geo-alt-fill"></i> add new delivery address</div>
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between">
+
+                                                <div class="d-flex flex-row align-items-center" style="gap: 1rem;">
+
+                                                    <div class="form-outline">
+                                                        <label class="form-label" for="form6Example1">First Name</label>
+                                                        <input type="text" id="form6Example1" class="form-control"
+                                                            name="firstName" />
+                                                    </div>
+                                                    <div class="form-outline">
+                                                        <label class="form-label" for="form6Example1">Last Name</label>
+                                                        <input type="text" id="form6Example1" class="form-control"
+                                                            name="lastName" />
+                                                    </div>
+                                                    <div class="form-outline">
+                                                        <label class="form-label" for="form6Example1">Email </label>
+                                                        <input type="email" id="form6Example1" class="form-control"
+                                                            name="email" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-row align-items-center" style="gap: 1rem;">
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="form6Example1">Mobile Number</label>
+                                                    <input type="number" id="form6Example1" class="form-control"
+                                                        name="mobileNumber" />
+                                                </div>
+                                                <div class="form-outline">
+                                                    <label class="form-label" for="form6Example1">Pin code</label>
+                                                    <input type="number" name="pincode" id="form6Example1"
+                                                        class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <div class="form-group">
+                                                    <label for="exampleFormControlTextarea1">Address</label>
+                                                    <textarea class="form-control" name="address"
+                                                        id="exampleFormControlTextarea1" rows="3"></textarea>
+                                                </div>
+
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <div class="form-group">
+                                                    <input type="text" name="userId" id="" value="{{proDetails.userID}}"
+                                                        hidden>
+                                                    <button class="btn btn-primary " type="submit"
+                                                        style="margin-top:10px; margin-left:500px;">Save</button>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{/if}}
+                                </div>
+
+                                <div class="col-lg-5">
+
+                                    <div class="card bg-light text-dark  rounded-3">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                                <h5 class="mb-0">Payment Type</h5>
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label" for="flexRadioDefault1" id="cash">
+                                                    Cash On Delivery
+                                                </label>
+                                                <input class="form-check-input paymentMethod" type="radio"
+                                                    name="payment-method" id="flexRadioDefault1" value="COD">
+                                            </div>
+                                            <div class="form-check">
+                                                <label class="form-check-label" for="flexRadioDefault2" id="online">
+                                                    Online Payment
+                                                </label>
+                                                <input class="form-check-input paymentMethod" type="radio"
+                                                    value="online" name="payment-method" id="flexRadioDefault2" checked>
+                                            </div>
+
+
+                                            <hr class="my-4">
+
+
+
+                                            <div class="d-flex justify-content-between text-dark">
+                                                <p class="mb-2">Shipping</p>
+                                                <p class="mb-2 text-success">Free Delivery</p>
+                                            </div>
+
+                                            <div class="d-flex justify-content-between mb-4 text-dark">
+                                                <p class="mb-2">Total</p>
+                                                <p class="mb-2" id="to">₹{{proDetails.Total_price}}</p>
+                                            </div>
+                                            <div>
+                                                <input type="text" class="d-none"
+                                                    value="{{proDetails.userID}}&{{proDetails.proId}}">
+                                                <button id="checkout" data-payment-method="" data-order="{{oneProduct}}"
+                                                    data-cart="{{ proDetails.oneItemID_from_cart}}" type="submit"
+                                                    class="text-uppercase btn btn-dark float-end">checkout</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+   
+
+
+</div>
+<script>
+    document.querySelector('#removeAddress').addEventListener('click', (e) => {
+        e.preventDefault()
+        let userID = localStorage.getItem('id')
+        if (userID) fetch('/remove-address', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userID }) }).then(data => {
+            return data.json()
+        }).then(url => {
+            window.location = url;
+        })
+    })
+
+
+
+    function paymentMethod() {
+        document.querySelectorAll('.paymentMethod').forEach(el => {
+            if (el.checked) {
+                document.querySelector('#checkout').dataset.paymentMethod = el.value
+            }
+        })
+
+    }
+    window.addEventListener('load', () => {
+        paymentMethod()
+    })
+    document.querySelectorAll('.paymentMethod').forEach(el => {
+        el.addEventListener('input', e => {
+            if (el.checked) {
+                document.querySelector('#checkout').dataset.paymentMethod = el.value
+            }
+        })
+    })
+
+    document.querySelector('#checkout').addEventListener('click', (e) => {
+        e.preventDefault();
+        e.target.innerHTML = 'Processing..'
+        e.target.classList.toggle('disabled', true)
+        let [userID, productID] = e.target.previousElementSibling.value.split('&');
+        let oneProduct = String(true) == e.target.dataset.order
+
+        //selected one item from cart (it's ID)
+
+        let oneItemID_from_cart = e.target.dataset.cart
+
+
+
+        let paymentMethod = e.target.dataset.paymentMethod
+        if (paymentMethod == "online") {
+            if (productID) {
+                console.log('from address', oneProduct)
+
+                fetch('/create-checkout-session', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userID, productID, oneItemID_from_cart }) }).then(res => {
+                    return res.json();
+                }).then(url => {
+                    window.location = url
+                    e.target.classList.toggle('disabled', false)
+                    e.target.innerHTML = 'Checkout'
+                })
+            } else {
+                console.log('from address', oneProduct)
+                fetch('/create-checkout-session', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userID, productID, oneProduct, oneItemID_from_cart }) }).then(res => {
+                    return res.json();
+                }).then(url => {
+                    window.location = url
+                    e.target.classList.toggle('disabled', false)
+                    e.target.innerHTML = 'Checkout'
+                })
+            }
+
+        } else {
+            let total_price = document.querySelector('#to').innerHTML.split("₹")[1]
+            console.log(userID, productID, total_price)
+            if (productID) {
+
+                fetch('/cash_On', { method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userID: userID, productID: productID, total_price: total_price }) }).then(res => {
+                    return res.json();
+                }).then(url => {
+                    window.location = url
+
+                })
+            } else {
+                let userConfirm = confirm("Are you about this checkout");
+                if (userConfirm) {
+                    fetch('/cash_On', { method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userID: userID, total_price: total_price, oneProduct, oneItemID_from_cart }) }).then(res => {
+                        return res.json()
+                    }).then(url => {
+                        console.log(url);
+                        window.location = url;
+                    })
+                } else {
+                    alert("checkout has failed redirecting to home")
+                    window.location = '/'
+                }
+            }
+        }
+    })
+</script>
+
+
+
+<script src="/public/javascripts/home.js"></script>
+<script src="/public/javascripts/refresh.js"></script>

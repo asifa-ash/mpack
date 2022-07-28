@@ -1,0 +1,115 @@
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Verification</h5>
+        <button id="close" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="login-body"></p>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<section class="vh-100"
+  style="background-image: url(https://media.istockphoto.com/photos/young-african-american-woman-is-holding-shopping-bags-picture-id1155467348?k=20&m=1155467348&s=612x612&w=0&h=_j_kad0svHj1JnmmEhDpwsaQjxv1Uql7wjGcowjzFeA=);">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card shadow-2-strong bg-transparent" style="border-radius: 1rem; border: 0;">
+          <div class="card-body p-5 text-center">
+
+            <h3 class="mb-5">Log In</h3>
+            <form action="/login" method="post" id="signup">
+              <div class="form-outline mb-4">
+                <label class="form-label d-flex justify-content-start text-light" for="typeEmailX-2">Email</label>
+                <input type="email" name="email" id="typeEmailX-2" class="form-control form-control-lg " />
+
+              </div>
+
+              <div class="form-outline mb-4">
+                <label class="form-label d-flex justify-content-start text-light" for="typePasswordX-2">Password</label>
+                <input type="password" id="typePasswordX-2" name="password" class="form-control form-control-lg " />
+
+              </div>
+              {{!-- <div class="form-outline mb-4">
+                <label class="form-label" for="typePasswordX-2">Re ender password</label>
+                <input type="password" id="typePasswordX-2" name="password2" class="form-control form-control-lg" />
+
+              </div> --}}
+
+              <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
+
+
+
+
+
+
+              <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="/login/signup"
+                  style="color: #393f81;">Register here</a></p>
+
+
+              <hr class="my-4">
+
+
+
+              <div id="buttonDiv"></div>
+            </form>
+            <button type="submit" id="forgetBtn" data-bs-toggle="modal" data-bs-target="#exampleModal"
+              style="border:none;background: transparent;"> Forgot your password</button>
+
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  let status_code = window.location.search.split('=')[1];
+  //204 code for no content 
+  if (204 == status_code) {
+    history.replaceState({}, '', '/')
+    alert('account not exist.Please Sign Up')
+
+  } else if (205 == status_code) {
+    localStorage.setItem("status", 205)
+    history.replaceState({}, '', '/login')
+
+  } else if (206 == status_code) {
+    history.replaceState({}, '', '/login');
+    alert('your password is incorrect,Please check your password');
+  }
+</script>
+
+{{!-- forgot password --}}
+<script>
+  document.querySelector("#forgetBtn").addEventListener('click', (e) => {
+    e.preventDefault();
+    let email = document.querySelector('input[name=email]').value
+    console.log(email)
+    fetch('/login/forgot', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email }) }).then(res => {
+      return res.json()
+
+    }).then(data => {
+      document.querySelector("#login-body").innerHTML = data.res
+      document.querySelector('#close').addEventListener('click', (e) => {
+
+        window.location = data.url
+      })
+
+
+    })
+  })
+</script>

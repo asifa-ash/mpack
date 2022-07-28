@@ -1,0 +1,40 @@
+
+<div class="otp-container">
+  <div class="otp_holder">
+    <h6>Please enter the one time OTP</h6>
+
+      <form action="" method="post">
+        <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+          <input class="m-2 text-center form-control rounded " type="text" id="first" name="otp" maxlength="6"
+            style="width:50%;">
+        </div>
+
+
+        <div class="mt-4">
+          <button type="submit" style="width:60%"  id="submitValidate" class="btn btn-danger px-4 validate mx-5">Validate</button>
+        </div>
+      </form>
+  </div>
+
+</div>
+  
+<script>
+  document.querySelector('#submitValidate').addEventListener('click', (e) => {
+    e.preventDefault();
+    let very_otp = document.querySelector('#first').value
+    let [o_y_V,userID] = window.location.search.split('?')[1].split('=_')
+    console.log(o_y_V, very_otp)
+    fetch('/done_', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ hashOtp: o_y_V, userOtp: very_otp,userID:userID }) }).then(res => {
+      return res.json()
+    }).then(url => {
+      window.location = url
+    })
+
+
+
+  })
+
+</script>
+<script>
+  
+</script>

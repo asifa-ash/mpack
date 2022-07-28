@@ -1,0 +1,53 @@
+<div class="admin-body">
+    <h2>M PACK</h2>
+    {{>slider}}
+    <div class="admin-right">
+        <div class="container viewProduct d-flex align-items-center justify-content-center  mt-5 mx-5">
+            <table class=" table w-100 ">
+                <thead>
+                    <tr>
+                        <th scope="col-md-3">Name</th>
+                        <th scope="col-md-3">Email</th>
+                        <th scope="col-md-3">Products</th>
+                        <th scope="col-md-3">Price</th>
+                        <th scope="col-md-3">Quantity</th>
+
+                        <th scope="col-md-3">Address</th>
+                        <th scope="col-md-3">Date</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <form id="formData" method="post" action="/admin/userData">
+                        {{#each orderData}}
+
+                        <tr>
+                            <th scope="row">{{plus @index}}</th>
+                            <td>{{this.name}}</td>
+                            <td>{{this.email}}</td>
+                            <td>{{this.products.name}}</td>
+                            <td>{{this.products.price}}</td>
+                            <td>{{this.products.quantity}}</td>
+                            <td>{{this.Address.address}}</td>
+
+                            <td>{{this.date}}</td>
+
+
+
+                        </tr>
+
+                        {{/each}}
+                    </form>
+
+
+
+                </tbody>
+            </table>
+        </div>
+
+        {{!-- cash on part --}}
+
+
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="row m-5" style="display:flex;flex-direction:column;">
+        <form action="/user/update" method="post">
+            <input type="text" disabled value="{{userID}}" class="d-none">
+            <input type="password" id="user-pass"></br>
+            <p id="error"></p>
+            <button class="btn btn-danger" id="reset">Reset</button>
+
+        </form>
+
+    </div>
+
+</div>
+<script>
+    window.history.replaceState({},'','/done_')
+
+    document.querySelector('#reset').addEventListener('click', (e) => {
+        e.preventDefault();
+        let userPass = document.querySelector("#user-pass").value
+        let userID = e.target.parentNode.childNodes[1].value
+        console.log(userID)
+        fetch('/update_pass', { method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userPass, userID }) }).
+            then(res => {
+                return res.json()
+            }).then(data => {
+                if (data.url) {
+                    alert(data.res)
+                    window.location = data.url
+                } else {
+                    document.querySelector('#error').innerHTML = data.res
+                }
+            })
+
+    })
+</script>

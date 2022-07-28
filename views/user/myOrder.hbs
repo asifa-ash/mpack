@@ -1,0 +1,47 @@
+{{>homenav }}
+<section>
+    <div class="container mt-4">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">My Order</li>
+            </ol>
+        </nav>
+        <table class="table  table-light table-striped" id="orderTable">
+            <thead>
+                <tr>
+                    <th scope="col-md-3">Name</th>
+                    <th scope="col-md-3">Email</th>
+                    <th scope="col-md-3">Products</th>
+                    <th scope="col-md-3">Price</th>
+                    <th scope="col-md-3">Quantity</th>
+
+                    <th scope="col-md-3">Address</th>
+                    <th scope="col-md-3">Date</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {{#each orderData}}
+                <tr>
+
+                    <th scope="rew" style="width: 14rem;">{{this.name}}</th>
+                    <th scope="row" style="width: 14rem;">{{this.email}}</th>
+
+                    {{#if this.products}}<td scope="row" style="width: 14rem;">{{#each this.products}}<P>{{ this.name}}
+                        </P>{{/each}}</td> {{/if}}
+                    <td scope="row" style="width: 14rem;">{{#each this.products}}{{#if this.price}}<P>₹{{ this.price}}
+                        </P>{{/if}}{{/each}}</td>
+                    <td scope="row" style="width: 14rem;">{{#each this.products}}<P>{{ this.quantity}}</P>{{/each}}</td>
+
+                    <td scope="row" style="width: 14rem;">{{this.Address.address}}</td>
+                    <td scope="row" style="width: 14rem;">{{this.date}}</td>
+
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</section>
+<script src="/public/javascripts/home.js"></script>
+<script src="/public/javascripts/refresh.js"></script>

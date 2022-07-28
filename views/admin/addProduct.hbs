@@ -1,0 +1,160 @@
+
+<div class="admin-body">
+  <h2>M PACK</h2>
+  {{>slider}}
+  <div class="admin-right">
+
+    <div class="addForm">
+      <form class="form" id="form1" action="/admin/add-product" method="post" enctype="multipart/form-data">
+
+        <div class="row">
+          <div class="form-outline mb-1 col-4">
+            <label class="form-label" for="form3Example1cg">Product Name</label>
+
+            <input type="text" id="form3Example1cg" name="name" class="inputOf form-control " />
+            <span id="name-error"></span>
+          </div>
+
+          <div class="form-outline mb-1 col-4">
+            <label class="form-label" for="form3Example3cg">Prise</label>
+            <input type="text" id="prise" name="prise" class="inputOf form-control " />
+            <span id="prise-error"></span>
+
+
+
+          </div>
+          <div class="form-outline mb-1 col-4">
+            <label class="form-label" for="form3Example4cg">Size</label>
+            <input type="text" name="size" id="size" class="inputOf form-control " />
+            <span id="size-error"></span>
+
+          </div>
+        </div>
+
+
+
+        <div class="form-outline mb-1">
+          <label class="form-label" for="form3Example4cdg">Color</label>
+          <div id="color"></div>
+          <div id="adminColorAddBtn" class="btn adminColorAddBtn" style="font-size: 24px">+</div>
+
+        </div>
+        <div class="row">
+          <div class="form-outline mb-1 col-6">
+            <label class="form-label" for="form3Example4cdg">GSM</label>
+            <input type="text" name="gsm" id="gsm" class="inputOf form-control " />
+            <span id="gsm-error"></span>
+
+          </div>
+          <div class="form-outline mb-1 col-6">
+            <label class="form-label" for="form3Example4cdg">Quantity</label>
+            <input type="text" name="Quantity" id="Quan" class="inputOf form-control " />
+            <span id="Quan-error"></span>
+
+          </div>
+        </div>
+        <div class="form-outline mb-1">
+          <label class="form-label" for="form3Example4cdg">Material</label>
+          <input type="text" name="material"  class="inputOf form-control " />
+          <span></span>
+        </div>
+        
+        <div class="form-outline mb-1">
+          <label class="form-label" for="form3Example4cdg">Image</label>
+          <input type="file" name="image"  class="inputOf form-control " />
+          <span></span>
+        </div>
+
+        <div class="d-flex justify-content-center">
+          <button type="submit" class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Add</button>
+        </div>
+
+      </form>
+    </div>
+
+
+  </div>
+
+</div>
+
+
+
+
+<script>
+  let colorSection = document.getElementById('color');
+
+  document.querySelector('.adminColorAddBtn').addEventListener('click', (e) => {
+    if (colorSection.childNodes.length >= 3) {
+      document.querySelector('.adminColorAddBtn').classList.toggle('d-none', true);
+    } else {
+      colorSection.innerHTML += `<input type="color" name="color"  class="form-control  w-25" />`;
+      document.querySelector('.adminColorAddBtn').classList.toggle('d-none', false);
+    }
+
+
+
+  })
+
+
+</script>
+{{!-- form validation --}}
+<script>
+  var priseError = document.getElementById('prise-error')
+  var sizeError = document.getElementById('size-error')
+  var gsmError = document.getElementById('gsm-error')
+  var quanError = document.getElementById('Quan-error')
+  var nameError = document.getElementById('name-error')
+
+
+
+  document.querySelector('#form1').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const data = new FormData(e.target);
+    const [name, prise, size, color, gsm, quan] = data
+    console.log(name, prise, size, color, gsm, quan)
+
+
+    if (!name[1]) {
+      nameError.innerHTML = "Enter a product name"
+      nameError.style = "color:red;"
+
+    } else if (!prise[1]) {
+      priseError.innerHTML = "Enter a valid price"
+      priseError.style = "color:red;"
+    } else if (!size[1]) {
+      sizeError.innerHTML = "Enter a valid size"
+      sizeError.style = "color:red;"
+    }
+    else if (!gsm[1]) {
+      gsmError.innerHTML = "Enter a valid gsm"
+      gsmError.style = "color:red;"
+    }
+    else if (!quan[1]) {
+      quanError.innerHTML = "Enter a valid quantity"
+      quanError.style = "color:red;"
+    } else {
+      e.target.submit()
+    }
+  });
+
+  document.querySelectorAll('.inputOf').forEach(el => {
+    let form = document.querySelector('#form1')
+
+    el.addEventListener('input', e => {
+      document.querySelectorAll('.inputOf').forEach(els => {
+        if (els.value) {
+
+          els.nextElementSibling.innerHTML = ""
+
+
+        }
+      })
+
+
+    })
+  })
+
+
+
+
+</script>

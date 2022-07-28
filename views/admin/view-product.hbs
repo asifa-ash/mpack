@@ -1,0 +1,85 @@
+<div class="admin-body">
+  <h2>M PACK</h2>
+  {{>slider}}
+  <div class="admin-right">
+    <div class="viewProduct">
+      
+
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Name</th>
+            <th scope="col">prise</th>
+
+            <th scope="col">Id</th>
+            <th scope="col">Image</th>
+
+            <th scope="col">Edit</th>
+            <th scope="col">delete</th>
+          </tr>
+        </thead>
+        {{#each data}}
+        <tbody>
+          <form id="data" method="post">
+            <tr>
+              <th scope="row">{{plus @index}}</th>
+              <td><input type="text" id="name" readonly name="name" value="{{this.Name}}"
+                  style="border:none;outline:none;color:black;"> </td>
+              <td><input type="text" readonly name="Prise" value="{{this.Prise}}"
+                  style="border:none;outline:none;color:black;width: 20px;"> </td>
+              <td><input type="text" readonly name="id" id="id" value="{{this._id}}"
+                  style="border:none;outline:none;color:black"> </td>
+
+              <td>
+                <img style="width:50px;height:50px" src="../images/{{this.image}}" class="card-img-top" alt="...">
+              </td>
+
+
+              {{!-- <td><button type="submit" class="btn btn-danger">Add</button></td> --}}
+              <td><button type="submit" class="btn btn-success">Edit</button></td>
+
+              <td><button id="delete" type="submit"
+                  onclick="return confirm('Are you sure you want to delete :{{this.Name}}')"
+                  class="btn btn-danger">delete</button></td>
+
+
+
+
+            </tr>
+          </form>
+        </tbody>
+        {{/each}}
+      </table>
+
+    </div>
+  </div>
+</div>
+<script>
+  let doc = document.querySelectorAll('#data')
+  doc.forEach((el) => {
+    el.addEventListener('submit', (e) => {
+      e.preventDefault();
+      switch (e.submitter.innerHTML) {
+        case 'delete': e.target.setAttribute('action', '/admin/delete')
+          e.target.submit();
+          break;
+        default:
+          e.preventDefault();
+          let id = e.target.parentNode.querySelector('#id').value
+          console.log(id)
+          window.location = `/admin/edit/?${id}`
+          /* fetch('/admin/edit',{ method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: id }) }).then(res=>{
+             return res.json()
+           }).then(url=>{
+             window.location = url
+           });*/
+          break;
+      }
+
+
+
+    })
+  })
+</script>

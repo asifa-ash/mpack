@@ -6,6 +6,7 @@
             <table class=" table w-100 ">
                 <thead>
                     <tr>
+                         <th scope="col-md-3">No</th>
                         <th scope="col-md-3">Name</th>
                         <th scope="col-md-3">Email</th>
                         <th scope="col-md-3">Products</th>
@@ -26,9 +27,12 @@
                             <th scope="row">{{plus @index}}</th>
                             <td>{{this.name}}</td>
                             <td>{{this.email}}</td>
-                            <td>{{this.products.name}}</td>
-                            <td>{{this.products.price}}</td>
-                            <td>{{this.products.quantity}}</td>
+                            <td>{{#each this.products}}<P>{{ this.name}}
+                        </P>{{/each}}</td>
+                            <td>{{#each this.products}}<P>{{ this.price}}
+                        </P>{{/each}}</td>
+                            <td>{{#each this.products}}<P>{{ this.quantity}}
+                        </P>{{/each}}</td>
                             <td>{{this.Address.address}}</td>
 
                             <td>{{this.date}}</td>

@@ -131,27 +131,34 @@ async function onlineCheckouts(userID) {
         if (checkouts.payment_status == 'paid') {
             stripe.checkout.sessions.listLineItems(checkouts.id, (err, lineItems) => {
                 MongoClient.connect(url).then(client => {
-                    client.db('database').collection('address').findOne({userId:userID}).then(address=>{
-                        checkout = {
-                            userID: userID,
-                            email: checkouts.customer_details.email,
-                            name: checkouts.customer_details.name,
-                            products: lineItems.data.map(item => {
-                                return {
-                                    name: item.description,
-                                    quantity: item.quantity,
-                                    price: (item.amount_total / 100) / item.quantity,
-                                    total_price: item.amount_total / 100
+                    client.db('database').collection('checkouts').findOne({checkout_id:checkouts.id}).then(chk_res=>{
+                        if(!chk_res){
+                            client.db('database').collection('address').findOne({userId:userID}).then(address=>{
+                                checkout = {
+                                    checkout_id:checkouts.id,
+                                    userID: userID,
+                                    email: checkouts.customer_details.email,
+                                    name: checkouts.customer_details.name,
+                                    products: lineItems.data.map(item => {
+                                        return {
+                                            name: item.description,
+                                            quantity: item.quantity,
+                                            price: (item.amount_total / 100) / item.quantity,
+                                            total_price: item.amount_total / 100
+                                        }
+                                    }),
+                                    Address:address,
+                                    date: new Date().toLocaleDateString()
                                 }
-                            }),
-                            Address:address,
-                            date: new Date().toLocaleDateString()
+                                MongoClient.connect(url).then(client => {
+                                    client.db('database').collection('checkouts').insertOne(checkout)
+                                })
+        
+                            })
                         }
-                        MongoClient.connect(url).then(client => {
-                            client.db('database').collection('checkouts').insertOne(checkout)
-                        })
-
+                        
                     })
+                    
                 })
 
                

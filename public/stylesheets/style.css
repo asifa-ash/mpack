@@ -350,7 +350,9 @@ li {
   flex-direction: column;
 
 }
-
+#orderTable td{
+  color:#eddbdb;
+}
 /* nav end */
 /* otp page.......... */
 
@@ -522,6 +524,8 @@ input[type="checkbox"] {
 }
 .table{
   color: #00bfff6b;
+  position: absolute;
+  top: 0;
  
 }
 .table input{
@@ -689,6 +693,7 @@ input[type="checkbox"] {
   width: 80%;
   height: 75%;
   overflow-y: scroll;
+  position: relative;
 }
 
 .admin-message {
@@ -709,6 +714,13 @@ input[type="checkbox"] {
 
 #orderTable{
   color: #000;
+  position: absolute;
+  top: 45px;
+
+}
+.hc{
+  position: relative;
+  
 }
 
 

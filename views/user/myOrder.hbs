@@ -1,6 +1,6 @@
 {{>homenav }}
 <section>
-    <div class="container mt-4">
+    <div class="container mt-4 hc">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">Home</a></li>
@@ -28,14 +28,14 @@
                     <th scope="rew" style="width: 14rem;">{{this.name}}</th>
                     <th scope="row" style="width: 14rem;">{{this.email}}</th>
 
-                    {{#if this.products}}<td scope="row" style="width: 14rem;">{{#each this.products}}<P>{{ this.name}}
-                        </P>{{/each}}</td> {{/if}}
-                    <td scope="row" style="width: 14rem;">{{#each this.products}}{{#if this.price}}<P>₹{{ this.price}}
-                        </P>{{/if}}{{/each}}</td>
-                    <td scope="row" style="width: 14rem;">{{#each this.products}}<P>{{ this.quantity}}</P>{{/each}}</td>
+                    {{#if this.products}}<th scope="row" style="width: 14rem;">{{#each this.products}}<P>{{ this.name}}
+                        </P>{{/each}}</th> {{/if}}
+                    <th scope="row" style="width: 14rem;">{{#each this.products}}{{#if this.price}}<P>₹{{ this.price}}
+                        </P>{{/if}}{{/each}}</th>
+                    <th scope="row" style="width: 14rem;">{{#each this.products}}<P>{{ this.quantity}}</P>{{/each}}</th>
 
-                    <td scope="row" style="width: 14rem;">{{this.Address.address}}</td>
-                    <td scope="row" style="width: 14rem;">{{this.date}}</td>
+                    <th scope="row" style="width: 14rem;">{{this.Address.address}}</th>
+                    <th scope="row" style="width: 14rem;">{{this.date}}</th>
 
                 </tr>
                 {{/each}}

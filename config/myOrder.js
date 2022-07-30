@@ -194,4 +194,15 @@ function getOrderAdmin() {
 
 }
 
-module.exports = { myOrder, getOrder, onlineCheckouts,getOrderAdmin }
+function removeOrder(Id) {
+
+    return new Promise((resolve, reject) => {
+        MongoClient.connect(url).then(client => {
+            console.log(Id);
+            return client.db('database').collection('checkouts').deleteOne({ _id:new ObjectId(Id) })
+        }).then(() => {
+            resolve()
+        })
+    })
+}
+module.exports = { myOrder, getOrder, onlineCheckouts,getOrderAdmin,removeOrder }

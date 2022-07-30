@@ -1,4 +1,4 @@
-let edit = {}
+
 
 
 const { MongoClient } = require('mongodb')
@@ -14,10 +14,10 @@ let { getAdminData } = require('../../config/admindata')
 const { addData, getOneProduct, getProduct } = require('../../config/addproduct');
 const { getData } = require('../../config/userData');
 const { getMessage } = require('../../model/message');
-const { route } = require('../user');
-const { getOrder } = require('../../config/MyOrder');
+
+
 const stripe = require('../../config/strip.config');
-const {getOrderAdmin}= require('../../config/myOrder')
+const {getOrderAdmin,removeOrder} = require('../../config/myOrder')
 
 
 
@@ -226,6 +226,16 @@ router.get('/message', (req, res) => {
   getMessage().then(msg => {
     console.log(msg)
     res.render('admin/message', { msg })
+  })
+});
+//  remove order from order....................
+router.get('/removeOrder', (req, res) => {
+ 
+let Id=req.url.split('?')[1]
+console.log('from order',Id)
+  removeOrder(Id).then(() => {
+    
+    res.redirect('/admin/view-order')
   })
 });
 

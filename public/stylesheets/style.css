@@ -526,6 +526,7 @@ input[type="checkbox"] {
   color: #00bfff6b;
   position: absolute;
   top: 0;
+  
  
 }
 .table input{
@@ -690,7 +691,7 @@ input[type="checkbox"] {
 
 
 .viewProduct {
-  width: 80%;
+  width: 90%;
   height: 75%;
   overflow-y: scroll;
   position: relative;

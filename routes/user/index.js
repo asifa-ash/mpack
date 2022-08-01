@@ -133,11 +133,16 @@ router.patch('/cart/update_cart', (req, res) => {
 
 // get user address..............................................................................
 
+router.post('/user-address',(req, res)=>{
+  console.log(req.body);
+  addAddress(req.body).then(()=>{
+    res.redirect('back');
+  })
+})
 
 
 
-
-router.post('/user-address', function (req, res, next) {
+router.patch('/user-address', function (req, res, next) {
   let { Total_P, userID, proId, productID, oneProduct } = req.body;
   proDetails = {
     Total_price: Total_P,
@@ -145,9 +150,12 @@ router.post('/user-address', function (req, res, next) {
     proId: proId,
     oneItemID_from_cart: productID,
   };
+  console.log("data from post user:",proDetails);
   encode({ proDetails: proDetails, oneProduct: oneProduct }).then(token => {
     console.log(token)
     res.json(token)
+
+    
   })
 
 
@@ -155,7 +163,7 @@ router.post('/user-address', function (req, res, next) {
 
 router.get('/user-address', (req, res) => {
   let token = req.url.split('token=') ? req.url.split('token=')[1] : null
-  console.log(req.url);
+  console.log("whn user : ",req.url);
   decode(token).then(data => {
     getAddress(data.proDetails.userID).then(address => {
 
@@ -377,8 +385,6 @@ router.put('/done_', (req, res) => {
   bcrypt.compare(userOtp, hashOtp).then(AreU => {
     if (AreU) {
       res.json(`${process.env.APP_BASE_URL}/done_?200u_ID${userID}`)
-    } else {
-      console.log("first")
     }
   })
 
@@ -400,8 +406,9 @@ router.post('/update_pass', (req, res) => {
 
 })
 router.delete('/remove-address', (req, res) => {
-  let { userID } = req.body
-  removeAddress(userID).then(res.json('/user-address'))
+  let { userID ,url} = req.body
+  
+  removeAddress(userID).then(res.json(url.href))
 
 })
 

@@ -1,10 +1,8 @@
 const { MongoClient } = require('mongodb')
-var { ObjectId } = require('mongodb');
-
 const url = process.env.DATABASE_URL;
 function addAddress(body) {
     return new Promise((resolve, reject) => {
-        MongoClient.connect(url, (err, result) => {
+        MongoClient.connect(url, { useNewUrlParser: true }, (err, result) => {
             console.log("connected");
 
             const { firstName, lastName, email, mobileNumber, pincode, address, userId } = body

@@ -74,9 +74,9 @@
         </span>
         {{#if Arr}}
 
-        <button class="btn btn-primary mt-1 "  id="total_proOrder">Place Order</button>
+        <button class="btn btn-primary mt-1 " id="total_proOrder">Place Order</button>
         {{else}}
-        <button class="btn btn-primary mt-1 disabled"  id="total_proOrder">Place Order</button>
+        <button class="btn btn-primary mt-1 disabled" id="total_proOrder">Place Order</button>
         {{/if}}
       </div>
 
@@ -107,7 +107,7 @@
         oneProduct: true
       }
       console.log(data)
-      fetch('/user-address', { method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).then(res => {
+      fetch('/user-address', { method: "PATCH", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).then(res => {
         return res.json()
       }).then(token => {
         window.location = `/user-address?token=${token}`
@@ -326,7 +326,7 @@
 
 
 
-    fetch('/user-address', { method: "POST", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pro_data) }).then(res => {
+    fetch('/user-address', { method: "PATCH", headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pro_data) }).then(res => {
       return res.json()
     }).then(token => {
       console.log(token)

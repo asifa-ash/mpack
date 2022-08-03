@@ -67,7 +67,7 @@
 
         <div class="card bg-glass">
           <div class="card-body px-4 py-5 px-md-5">
-            <form method="post" action="/login/signup">
+            <form method="post" id="signUp" action="/login/signup" >
               <!-- 2 column grid layout with text inputs for the first and last names -->
               <div class="row">
                 <div class="col-md-6 mb-4">
@@ -86,8 +86,8 @@
 
               <!-- Email input -->
               <div class="form-outline mb-4">
-                <input type="email" id="form3Example3" name="email" class="form-control" />
-                <label class="form-label" for="form3Example3">Email address</label>
+                <input type="email" id="email"  name="email" class="form-control"/>
+                <label class="form-labe " for="form3Example3">Email address</label>
               </div>
 
               <!-- Password input -->
@@ -101,15 +101,21 @@
                 Send OTP
               </button>
               <div class="form-outline mb-4">
-                <input type="text" id="form3Example4" name="otp" class="form-control" />
+                <input type="text"  name="otp" class="form-control" />
                 <label class="form-label" for="form3Example4">Verification</label>
               </div>
 
 
 
               <div class="form-outline mb-4">
-                <input type="password" id="form3Example4" name="password" class="form-control" />
+                <input type="password" id="pass" name="password" value="" class="form-control" />
                 <label class="form-label" for="form3Example4">Password</label>
+              </div>
+              <div class="form-outline mb-4">
+                <input type="password" id="conPass" name="Conform password" class="form-control" />
+                <p id="error" style="color:red"></p>
+                <label class="form-label" for="form3Example4">Conform Password</label>
+
               </div>
 
               <button type="submit" id="sign" class="btn btn-primary btn-block disabled mb-4">
@@ -182,12 +188,13 @@
       e.target.innerHTML = "Verifying..";
       e.target.classList.toggle("disabled", true);
       if (otp == data.otp) {
+        document.getElementById('email').readOnly=true
         e.target.innerHTML = "Verified";
-        
+
         document.querySelector('#sign').classList.toggle('disabled', false)
 
-      }else{
-       e.target.classList.toggle("disabled", false);
+      } else {
+        e.target.classList.toggle("disabled", false);
         e.target.innerHTML = "Send OTP";
         e.target.setAttribute("id", "otpBtn")
 
@@ -198,6 +205,38 @@
 
 
   })
+
+
+</script>
+
+<script>
+  let error = document.querySelector('#error')
+  let sign = document.querySelector('#sign');
+
+  document.querySelector('#sign').addEventListener('click', (e) => {
+    e.preventDefault()
+
+    let password = document.querySelector('#pass').value;
+    let confirmPass = document.querySelector('#conPass').value;
+
+
+
+
+    if (password == confirmPass) {
+      error.innerHTML = ""
+      document.querySelector('#signUp').submit()
+
+
+    }
+    else {
+      error.innerHTML = "Not Mach"
+
+
+
+    }
+  })
+
+
 
 
 </script>

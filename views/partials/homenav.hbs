@@ -27,9 +27,9 @@
 
                     </a>
                     <hr>
-                    <a href="" style="text-decoration: none;">
-                        <li class="MYProfile">My profile</li>
-                    </a>
+
+                    <li class="MYProfile">My profile</li>
+
                     <hr>
                     <a href="/myOrder" style="text-decoration: none;">
                         <li id="myOrder">My Order</li>
@@ -53,9 +53,9 @@
 
 
                 <hr>
-                <a href="" style="text-decoration: none;">
-                    <li class="MYProfile">My profile</li>
-                </a>
+
+                <li class="MYProfile">My profile</li>
+
                 <hr>
                 <a href="/myOrder" style="text-decoration: none;">
                     <li id="myOrder">My Order</li>
@@ -103,14 +103,10 @@
 
 </script>
 <script>
-    document.querySelectorAll('.MYProfile').forEach(el => {
-        el.addEventListener('pointerdown', (e) => {
-            e.preventDefault()
+    document.querySelectorAll('.MYProfile').forEach((item) => {
+        item.addEventListener('pointerdown', () => {
             let id = localStorage.getItem('id')
-            location = `/myProfile/id?${id}`
-
-            console.log(id)
+            window.location = `/myProfile/?id${id}`
         })
-
     })
 </script>

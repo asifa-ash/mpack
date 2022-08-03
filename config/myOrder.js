@@ -34,6 +34,7 @@ function myOrder(userID, productID, total_price, oneItemID_from_cart, oneProduct
                                 name: `${data.name1} ${data.name2}`,
                                 products: cart,
                                 Address: address,
+                                delivered: false,
                                 date: new Date().toLocaleDateString()
                             }
                             client.db('database').collection('checkouts').insertOne(checkout).then(resolve({ url: `/success?_Uid=_${userID}` }))
@@ -66,6 +67,7 @@ function myOrder(userID, productID, total_price, oneItemID_from_cart, oneProduct
                                 name: `${data.name1} ${data.name2}`,
                                 products: cart,
                                 Address: address,
+                                delivered: false,
                                 date: new Date().toLocaleDateString()
                             }
                             client.db('database').collection('checkouts').insertOne(checkout).then(resolve({ url: `/success?_Uid=_${userID}` }))
@@ -92,6 +94,7 @@ function myOrder(userID, productID, total_price, oneItemID_from_cart, oneProduct
                                     total_price: data.Price,
                                 }],
                                 Address: address,
+                                delivered: false,
                                 date: new Date().toLocaleDateString()
                             }
                             client.db('database').collection('checkouts').insertOne(checkout).then(resolve({ url: `/success?_Uid=_${userID}` }))
@@ -147,6 +150,7 @@ async function onlineCheckouts(userID) {
                                             total_price: item.amount_total / 100
                                         }
                                     }),
+                                    delivered: false,
                                     Address:address,
                                     date: new Date().toLocaleDateString()
                                 }
@@ -199,7 +203,7 @@ function removeOrder(Id) {
     return new Promise((resolve, reject) => {
         MongoClient.connect(url).then(client => {
             console.log(Id);
-            return client.db('database').collection('checkouts').deleteOne({ _id:new ObjectId(Id) })
+            return client.db('database').collection('checkouts').updateOne({ _id:new ObjectId(Id) },{$set:{delivered:true}})
         }).then(() => {
             resolve()
         })

@@ -10,19 +10,18 @@ searchBar.addEventListener('input', e => {
 
     //taking 'tbody' elements from table's child-nodes
 
-    let fetchData = document.getElementById("name").innerHTML;
-    console.log(fetchData + "HELLO");
+    
 
 
     // taking all 'input' elements from 'tbody' by calling 'input' element ID 
 
     let inputTitle = document.querySelectorAll('#name');
-
+    console.log("name value :",inputTitle)
 
     //looping all 'input' elements to get there values inside it
 
     inputTitle.forEach(el => {
-        console.log(el.innerHTML)
+       
 
         console.log(e.target.value)
 
@@ -30,7 +29,7 @@ searchBar.addEventListener('input', e => {
         console.log(found)
 
         //hiding element using display none if the value the does not matches the searching input value
-
+        console.log(el.parentNode.parentNode.parentNode)
         el.parentNode.parentNode.parentNode.classList.toggle('d-none', !found)
 
 

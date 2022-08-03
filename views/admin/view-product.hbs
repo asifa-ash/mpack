@@ -2,11 +2,9 @@
   <h2>M PACK</h2>
   {{>slider}}
   <div class="admin-right">
+      <input type="text" name="search" id="search">
     <div class="viewProduct">
-      
-
-
-      <table class="table">
+      <table class="table" data-order='[[ 1, "asc" ]]' data-page-length='25' id="uniqueTable">
         <thead>
           <tr>
             <th scope="col">No</th>
@@ -25,8 +23,7 @@
           <form id="data" method="post">
             <tr>
               <th scope="row">{{plus @index}}</th>
-              <td><input type="text" id="name" readonly name="name" value="{{this.Name}}"
-                  style="border:none;outline:none;color:black;"> </td>
+              <td><li id="name">{{this.Name}}</li> </td>
               <td><input type="text" readonly name="Prise" value="{{this.Prise}}"
                   style="border:none;outline:none;color:black;width: 20px;"> </td>
               <td><input type="text" readonly name="id" id="id" value="{{this._id}}"
@@ -52,6 +49,14 @@
         </tbody>
         {{/each}}
       </table>
+
+      
+
+
+
+
+
+
 
     </div>
   </div>
@@ -82,4 +87,7 @@
 
     })
   })
+</script>
+<script>
+
 </script>

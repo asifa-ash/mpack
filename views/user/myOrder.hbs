@@ -37,7 +37,11 @@
 
                     <th scope="row" style="width: 14rem;">{{this.Address.address}}</th>
                     <th scope="row" style="width: 14rem;">{{this.date}}</th>
-                     <th scope="row" style="width: 14rem;"><button class="btn btn-success" >Pending</button></th>
+                    {{#if this.delivered}}
+                    <th scope="row" style="width: 14rem;"><button class="btn btn-success" disabled>Delivered</button></th>
+                    {{else}}
+                    <th scope="row" style="width: 14rem;"><button class="btn btn-primary" disabled>Pending</button></th>
+                    {{/if}}
 
                 </tr>
                 {{/each}}

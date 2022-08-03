@@ -93,8 +93,8 @@ router.get('/cart', function (req, res, next) {
 
 
 
-router.get('/add-to-order/id', (req, res) => {
-  let img_id = String(req.url.split('?')[1]);
+router.get('/add-to-order', (req, res) => {
+  let img_id = String(req.url.split('id=')[1]);
 
   addToOrder(img_id).then(data => {
     console.log(data);
@@ -180,20 +180,6 @@ router.get('/user-address', (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // order success....................................................
 
 router.get('/success', function (req, res, next) {
@@ -251,8 +237,9 @@ router.get('/myOrder', (req, res, next) => {
   if (userID) {
 
     getOrder(userID).then(orderData => {
+      orderData.reverse() //reversing for listing new updated list
 
-      res.render('user/myOrder', { orderData });
+      res.render('user/myOrder', { orderData});
     })
   } else {
     res.end('something went wrong please login again')
@@ -414,9 +401,8 @@ router.delete('/remove-address', (req, res) => {
 
 
 // my profile.........................
-router.get('/myProfile/id', (req, res) => {
-  console.log("hi", req.url)
-  let userId = req.url.split("?")[1]
+router.get('/myProfile', (req, res) => {
+  let userId = req.url.split("id")[1]
   console.log(userId)
   getData("", userId).then(profileData => {
     console.log(profileData)
@@ -427,12 +413,12 @@ router.get('/myProfile/id', (req, res) => {
 // remove profile............................
 
 
-router.get('/removeProfile/id', (req, res) => {
+router.get('/removeProfile', (req, res) => {
 
 
-  let userId = req.url.split("?")[1]
+  let userId = req.url.split("id")[1]
   console.log(userId)
-  removeProfile(userId).then(data => {
+  removeProfile(userId).then(()=> {
     res.redirect('/')
   })
 

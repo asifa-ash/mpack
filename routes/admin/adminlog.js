@@ -2,7 +2,6 @@
 
 
 const { MongoClient } = require('mongodb')
-
 const url = process.env.DATABASE_URL;
 var { ObjectId } = require('mongodb');
 
@@ -197,7 +196,7 @@ router.post('/delete', (req, res) => {
 
 router.get('/userData', function (req, res, next) {
   getData().then((arr) => {
-    console.log(arr)
+    console.log(arr.reverse())
 
     res.render('admin/userdata', { arr });
   })
@@ -208,7 +207,7 @@ router.get('/userData', function (req, res, next) {
 router.get('/view-order', async (req, res) => {
 
   getOrderAdmin().then(orderData=>{
-    console.log(orderData)
+    console.log(orderData.reverse())
 
     res.render('admin/view-order',{orderData})
   })

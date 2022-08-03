@@ -56,7 +56,7 @@
                         <div class="row gutters">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div class="text-right">
-                                    <button type="button" id="#AccRem" class="btn btn-danger">Remove</button>
+                                    <button type="button" id="AccRem" class="btn btn-danger">Remove</button>
                                     <button type="submit" id="submit" name="submit"
                                         class="btn btn-primary">Update</button>
                                 </div>
@@ -76,7 +76,8 @@
     document.querySelector('#AccRem').addEventListener('click', (e) => {
         e.preventDefault()
         let id = localStorage.getItem('id')
-        window.location = `/removeProfile/id?${id}`
+        localStorage.setItem('status',205)
+        window.location = `/removeProfile/?id${id}`
 
         console.log(id)
 
